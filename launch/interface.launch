@@ -83,10 +83,10 @@
     </include>
 
 
-    <!-- <node name="Kill_button" pkg="drone_control" type="kill_button.py" required="true" output="screen"/>
+    <node name="Kill_button" pkg="drone_control" type="kill_button.py" required="true" output="screen"/>
 
     <node name="control" pkg="drone_control" required="true" type="control.py" output="screen">
        <param name="calibrate_pid" type="bool" value="false" />
-    </node>   -->
+    </node>
 
 </launch>
