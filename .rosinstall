@@ -2,7 +2,6 @@
     local-name: rqt_interface
     uri: https://github.com/arthurfenderbucker/rqt_interface.git
 
-
 - git:
     local-name: cv_detection
     uri: https://github.com/arthurfenderbucker/cv_detection.git
@@ -14,3 +13,11 @@
 - git:
     local-name: ros_numpy
     uri: https://github.com/arthurfenderbucker/ros_numpy.git
+
+- git:
+    local-name: orb_slam3_ros
+    uri: https://github.com/arthurfenderbucker/orb_slam3_ros.git
+
+- git:
+    local-name: odom_slam_sensor_fusion
+    uri: https://github.com/arthurfenderbucker/odom_slam_sensor_fusion.git
