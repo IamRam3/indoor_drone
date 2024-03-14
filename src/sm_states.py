@@ -1,8 +1,7 @@
+# from bebop_msgs.msg import Ardrone3PilotingStateAlertStateChanged
+# from bebop_msgs.msg import Ardrone3PilotingStateAltitudeChanged
+
 from std_msgs.msg import String, Empty, Bool
-
-from bebop_msgs.msg import Ardrone3PilotingStateAlertStateChanged
-from bebop_msgs.msg import Ardrone3PilotingStateAltitudeChanged
-
 from geometry_msgs.msg import Twist, Point, Pose
 import roslib
 import os
@@ -10,69 +9,72 @@ import rospy
 import smach
 import smach_ros
 from std_msgs.msg import String, Bool, UInt8, Float32
-
 from cv_bridge import CvBridge, CvBridgeError
 
-pub_state = rospy.Publisher("/state_machine/state",
-                            String, queue_size=1)
+from std_msgs.msg import Empty
+from mavros_msgs.msg import Altitude
+
+pub_state = rospy.Publisher("/state_machine/state", String, queue_size=1)
 
 import rospkg
 import json
 import ros_numpy
 import numpy as np
+
 rospack = rospkg.RosPack()
 positions_path = str(rospack.get_path('drone_control')+'/config/recorded_routines.json')
 
 with open(positions_path, 'r') as json_data_file:
     moving_routines = json.load(json_data_file)
-    
 
-class takeoff(smach.State):
+class Takeoff(smach.State):
     def __init__(self):
-        smach.State.__init__(self, outcomes=['done', 'error'])    
-        self.takeoff_topic = rospy.Publisher("/bebop/takeoff", Empty, queue_size=1)
-        self.camera_angle_pub = rospy.Publisher("/bebop/camera_control", Twist, queue_size=1)
+        smach.State.__init__(self, outcomes=['done', 'error'])
+        self.takeoff_topic = rospy.Publisher("/mavros/cmd/takeoff", Empty, queue_size=1)
+        self.camera_angle_pub = rospy.Publisher("/mavros/camera_control", Twist, queue_size=1)
         self.running_aligned_pub = rospy.Publisher("/control/align_reference/set_running_state", Bool, queue_size=1)
         self.angle_msg = Twist()
         self.angle_msg.angular.y = 3
         self.z = 0
+
     def altitude_callback(self, data):
         self.z = data.altitude
         print(data.altitude)
 
     def execute(self, userdata):
-        altitude_sub = rospy.Subscriber("/bebop/states/ardrone3/PilotingState/AltitudeChanged",Ardrone3PilotingStateAltitudeChanged, self.altitude_callback)
+        altitude_sub = rospy.Subscriber("/mavros/altitude", Altitude, self.altitude_callback)
         rospy.loginfo('Executing state takeoff')
+        
         for i in range(10):
             self.camera_angle_pub.publish(self.angle_msg)
             self.running_aligned_pub.publish(False)
             rospy.sleep(0.05)
-        rospy.loginfo('Camera Alined')
+        rospy.loginfo('Camera Aligned')
 
         for i in range(10):
             self.takeoff_topic.publish(Empty())
             rospy.sleep(0.1)
-        
+
         t = rospy.Time.now()
-        while self.z < 0.8 and not rospy.is_shutdown() and (rospy.Time.now()-t).to_sec()<5.0:
+        while self.z < 0.8 and not rospy.is_shutdown() and (rospy.Time.now() - t).to_sec() < 5.0:
             rospy.sleep(0.1)
-        # if (rospy.Time.now()-t).to_sec()<5.0:
+        # if (rospy.Time.now() - t).to_sec() < 5.0:
         #     return 'error'
-        
+
         # rospy.sleep(1)
-        
+
         altitude_sub.unregister()
         return 'done'
 
-
-class land_now(smach.State):
+class LandNow(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['done'])
-
-        self.land_topic = rospy.Publisher("/bebop/land", Empty,queue_size=1)
+        # Commented out Bebop-specific publisher
+        # self.land_topic = rospy.Publisher("/bebop/land", Empty, queue_size=1)
+        self.land_topic = rospy.Publisher("/mavros/cmd/land", Empty, queue_size=1)
 
     def execute(self, userdata):
-        rospy.loginfo('land')
+        rospy.loginfo('Landing now')
 
         for i in range(10):
             self.land_topic.publish(Empty())
