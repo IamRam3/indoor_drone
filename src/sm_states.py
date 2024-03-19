@@ -69,7 +69,7 @@ class land_now(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['done'])
 
-        self.land_topic = rospy.Publisher("/bebop/land", Empty,queue_size=1)
+        self.land_topic = rospy.Publisher("/MAV/land", Empty,queue_size=1)
 
     def execute(self, userdata):
         rospy.loginfo('land')
