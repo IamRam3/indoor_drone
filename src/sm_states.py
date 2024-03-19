@@ -513,7 +513,7 @@ class inventory(smach.State):
         self.color_pub= rospy.Publisher("cv_detection/color_range/set_color", String,queue_size=1)
 
         self.color_ref_point_sub  = rospy.Subscriber("/control/align_reference/ref_point", Point, self.color_rect_callback)
-        self.current_pose_sub = rospy.Subscriber("/odom_slam_sf/current_pose", Pose, self.pose_callback)
+        self.current_pose_sub = rospy.Subscriber("/orbslam3/camera_pose", Pose, self.pose_callback)
 
         self.shelf = shelf
 
