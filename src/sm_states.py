@@ -1,7 +1,7 @@
 from std_msgs.msg import String, Empty, Bool
 
-from bebop_msgs.msg import Ardrone3PilotingStateAlertStateChanged
-from bebop_msgs.msg import Ardrone3PilotingStateAltitudeChanged
+#from bebop_msgs.msg import Ardrone3PilotingStateAlertStateChanged
+#from bebop_msgs.msg import Ardrone3PilotingStateAltitudeChanged
 
 from geometry_msgs.msg import Twist, Point, Pose
 import roslib
@@ -30,7 +30,7 @@ with open(positions_path, 'r') as json_data_file:
 class takeoff(smach.State):
     def __init__(self):
         smach.State.__init__(self, outcomes=['done', 'error'])    
-        self.takeoff_topic = rospy.Publisher("/bebop/takeoff", Empty, queue_size=1)
+        self.takeoff_topic = rospy.Publisher("/dysl/takeoff", Empty, queue_size=1)
         self.camera_angle_pub = rospy.Publisher("/bebop/camera_control", Twist, queue_size=1)
         self.running_aligned_pub = rospy.Publisher("/control/align_reference/set_running_state", Bool, queue_size=1)
         self.angle_msg = Twist()

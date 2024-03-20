@@ -7,7 +7,7 @@
        
        <!-- <param name="dynamic_configuration" type="bool" value="false" /> -->
        <!-- <param name="X" value="/P_x,std_msgs/Float64,publishedTopic" /> -->
-       <!-- <param name="settings_file" type="string" value="$(drone_control)/config/bebop2_config.yaml" /> -->
+       <!-- <param name="settings_file" type="string" value="$(drone_control)/config/dysl_config.yaml" /> -->
   <!-- </node> -->
   <node name="calibrate_slam" pkg="odom_slam_sensor_fusion" type="calibrate_orb_slam.py" output="screen">
         <remap from="/orb_slam2_mono/pose"                  to="/orb_slam3/camera_pose"/>

@@ -5,7 +5,7 @@
 
 
     <!-- <node name="manual_control" pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" required="true" launch-prefix="gnome-terminal -e ">
-        <param name="cmd_vel" type="string" value="/bebop/cmd_vel" /> 
+        <param name="cmd_vel" type="string" value="/mavros/setpoint_velocity/cmd_vel" /> 
     </node> -->
 
     <node name="Kill_button" pkg="drone_control" type="kill_button.py" required="true" output="screen"/>

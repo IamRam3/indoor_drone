@@ -18,6 +18,29 @@
         <param name="map_name" value="$(arg map_name)" />
     </node>
 
+    <node name="pointcloud_scaler_all" pkg="odom_slam_sensor_fusion" type="pointcloud_scaler" respawn="false" output="screen" args="all">
+        <remap from="/input_pointcloud_topic"        to="/orb_slam3/all_points"/>
+        <remap from="/scaled_pointcloud_topic"        to="/orb_slam3/all_points_scaled"/>
+        <!-- <remap from="/input_pointcloud_topic"        to="/orb_slam2_mono/map_points"/>
+        <remap from="/scaled_pointcloud_topic"        to="/orb_slam2_mono/all_points_scaled"/> -->
+        <remap from="/set_scale"        to="/pointcloud_scaler_all/set_scale"/>
+
+    </node>
+    <node name="pointcloud_scaler_tracked" pkg="odom_slam_sensor_fusion" type="pointcloud_scaler" respawn="false" output="screen">
+        <remap from="/input_pointcloud_topic"        to="/orb_slam3/tracked_points"/>
+        <remap from="/scaled_pointcloud_topic"        to="/orb_slam3/tracked_points_scaled"/>
+        <!-- <remap from="/input_pointcloud_topic"        to="/orb_slam2_mono/tracked_points"/>
+        <remap from="/scaled_pointcloud_topic"        to="/orb_slam2_mono/tracked_points_scaled"/> -->
+        
+        <remap from="/set_scale"        to="/pointcloud_scaler_tracked/set_scale"/>
+
+
+    </node>
+
+
+    <node name="frame_aligner" pkg="odom_slam_sensor_fusion" type="slam_aligner.py" respawn="false" output="screen">
+        <param name="map_name" value="$(arg map_name)" />
+    </node>
 
     <include file="$(find indoor_drone)/launch/sm.launch">
         <arg name="calibrate" default="$(arg calibrate)" />

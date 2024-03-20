@@ -40,4 +40,4 @@ The system uses the ORB_slam3 algorithm to map the environment end localize it s
 
 # Visualize camera image in a new window
 
-terminal 4: ```rosrun image_view image_view image:=/bebop/image_raw```
+terminal 4: ```rosrun image_view image_view image:=/camera/color/image_raw```

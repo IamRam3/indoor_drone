@@ -152,7 +152,7 @@
                   "type": "repr"
                 },
                 "mouse_pub_topic": {
-                  "repr": "'/bebop/image_raw_mouse_left'",
+                  "repr": "'/camera/color/image_raw_mouse_left'",
                   "type": "repr"
                 },
                 "num_gridlines": {
@@ -176,7 +176,7 @@
                   "type": "repr"
                 },
                 "topic": {
-                  "repr": "'/bebop/image_raw'",
+                  "repr": "'/camera/color/image_raw'",
                   "type": "repr"
                 },
                 "zoom1": {
